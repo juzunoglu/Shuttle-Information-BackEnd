@@ -1,0 +1,17 @@
+twilio:
+  account_sid: ACe26ec523399667f01d6a8c8122895005
+  auth_token: 531021587d5e9969afa7f5148684316c
+  trial_number: "whatsapp:+14155238886"
+
+spring:
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+    host: smtp.gmail.com
+    username: juzunoglualihan@gmail.com
+    password: rcxgvwlkrygnoxmr
+    port: '587'
