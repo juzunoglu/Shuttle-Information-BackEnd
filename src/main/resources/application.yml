@@ -1,7 +1,7 @@
 twilio:
   account_sid: ACe26ec523399667f01d6a8c8122895005
   auth_token: "enter key"
-  trial_number: "whatsapp:+14155238886"
+  trial_number: "enter wp trial no"
 
 bezkoder:
   app:
