@@ -1,7 +1,12 @@
 twilio:
   account_sid: ACe26ec523399667f01d6a8c8122895005
-  auth_token: 531021587d5e9969afa7f5148684316c
+  auth_token: "enter key"
   trial_number: "whatsapp:+14155238886"
+
+bezkoder:
+  app:
+    jwtSecret: "enter secret"
+    jwtExpirationMs: 900000
 
 spring:
   mail:
@@ -13,5 +18,30 @@ spring:
           auth: 'true'
     host: smtp.gmail.com
     username: juzunoglualihan@gmail.com
-    password: rcxgvwlkrygnoxmr
+    password: "enter password"
     port: '587'
+
+  security:
+    user:
+      name: alihan
+      password: alihan
+      roles: USER_ROLE
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: sample
+    url: jdbc:postgresql://localhost:5432/sample
+    password: sample
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
