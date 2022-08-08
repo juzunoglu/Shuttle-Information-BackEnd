@@ -3,7 +3,7 @@ package com.alihan.uzunoglu.twilio.scheduledNotification;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.alihan.uzunoglu.twilio.model.SmsRequest;
+import com.alihan.uzunoglu.twilio.model.SmsRequestDTO;
 import com.alihan.uzunoglu.twilio.service.SmsSenderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class SendNotification {
 	@Scheduled(cron = "0 0 9-17 * * MON-FRI")
 	public void sendNotification() { //0 0 9-17 * * MON-FRI
 		log.info("The time is now {}", dateFormat.format(new Date()));
-		SmsRequest smsRequest = new SmsRequest("whatsapp:+905527040545", "https://www.youtube.com/watch?v=g9YlblQDGos", null, null);
+		SmsRequestDTO smsRequestDTO = new SmsRequestDTO("whatsapp:+905527040545", "https://www.youtube.com/watch?v=g9YlblQDGos", null, null);
 //		smsSender.sendSms(smsRequest);
 	}
 }

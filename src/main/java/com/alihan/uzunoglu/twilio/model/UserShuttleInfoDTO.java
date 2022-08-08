@@ -3,8 +3,12 @@ package com.alihan.uzunoglu.twilio.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.NonNull;
 
-public record UserInfo(
+import java.util.Date;
+import java.util.List;
 
+public record UserShuttleInfoDTO(
+
+				@JsonProperty("comingDates") @NonNull List<Date> comingDates,
 				@JsonProperty("fullName") @NonNull String fullName,
 				@JsonProperty("phoneNumber") @NonNull String phoneNumber,
 				@JsonProperty("email") @NonNull String email,

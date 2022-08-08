@@ -1,10 +1,10 @@
 package com.alihan.uzunoglu.twilio.service;
 
 import com.alihan.uzunoglu.twilio.exception.SendSmsException;
-import com.alihan.uzunoglu.twilio.model.SmsRequest;
+import com.alihan.uzunoglu.twilio.model.SmsRequestDTO;
 
 public interface SmsSender {
 
-	SmsRequest sendSms(SmsRequest smsRequest) throws SendSmsException;
+	SmsRequestDTO sendSms(SmsRequestDTO smsRequestDTO) throws SendSmsException;
 
 }

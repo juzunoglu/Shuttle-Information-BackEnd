@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
-public record SmsRequest(
+public record SmsRequestDTO(
 				@JsonProperty("phoneNumber") @NonNull String phoneNumber,
 				@JsonProperty("message") String message,
 				@JsonProperty("latitude") @Nullable Float latitude,
