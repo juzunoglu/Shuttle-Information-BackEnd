@@ -3,11 +3,11 @@ package com.alihan.uzunoglu.twilio.service.frontEndService;
 import com.alihan.uzunoglu.twilio.entity.Driver;
 import com.alihan.uzunoglu.twilio.model.DriverDTO;
 import com.alihan.uzunoglu.twilio.repository.DriverRepo;
-import com.alihan.uzunoglu.twilio.service.frontEndService.DriverStorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Stream;
 
 @Service
@@ -36,7 +36,7 @@ public class DriverStorageServiceImpl implements DriverStorageService {
 	@Override
 	public Driver uploadCarPhoto(Long id, MultipartFile file) throws IOException {
 		Driver driver = driverRepo.findById(id)
-						.orElseThrow(() -> new RuntimeException("No driver is found"));
+						.orElseThrow(() -> new RuntimeException("No driver is found. Please create a driver first!"));
 		driver.setCarPhoto(file.getBytes());
 		return driverRepo.save(driver);
 	}
@@ -48,9 +48,22 @@ public class DriverStorageServiceImpl implements DriverStorageService {
 						.orElseThrow(() -> new RuntimeException("No Driver is found"))
 						.getCarPhoto();
 	}
+	@Override
+	public List<Driver> getAllDrivers() {
+		int size = driverRepo.findAll().size(); // todo do pagination
+		return driverRepo.findAll().subList(0, size);
+	}
 
 	@Override
-	public Stream<Driver> getAllPhotos() {
-		return driverRepo.findAll().stream();
+	public boolean deleteDriverById(Long id) {
+		Driver driver = driverRepo.findById(id)
+						.orElseThrow(() -> new RuntimeException("No driver by the id " + id));
+		try {
+			driverRepo.delete(driver);
+		}
+		catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 }
