@@ -7,146 +7,202 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "drivers")
 public class Driver {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Column(name = "name")
-	private String name;
+    @Column(name = "name")
+    private String name;
 
-	@Column(name = "age")
-	private int age;
+    @Column(name = "age")
+    private int age;
 
-	@Column(name = "phoneNumber")
-	private String phoneNumber;
+    @Column(name = "phoneNumber")
+    private String phoneNumber;
 
-	@Column(name = "experience")
-	private String experience;
+    @Column(name = "experience")
+    private String experience;
 
-	@Column(name = "email")
-	private String email;
+    @Column(name = "email")
+    private String email;
 
-	@Lob
-	@Column(name = "driverPhoto")
-	private byte[] driverPhoto;
+    @Lob
+    @Column(name = "driverPhoto")
+    private byte[] driverPhoto;
 
-	@Column(name = "carMake")
-	private String carMake;
+    @Column(name = "carMake")
+    private String carMake;
 
-	@Column(name = "carModel")
-	private String carModel;
+    @Column(name = "carModel")
+    private String carModel;
 
-	@Lob
-	@Column(name = "carPhoto")
-	private byte[] carPhoto;
+    @Lob
+    @Column(name = "carPhoto")
+    private byte[] carPhoto;
 
-	@Column(name = "carTag")
-	private String carTag;
+    @Column(name = "carTag")
+    private String carTag;
 
-	public Driver() {
+    @Column(name = "latitude")
+    private Float latitude;
 
-	}
+    @Column(name = "longitude")
+    private Float longitude;
 
-	public Driver(String name, int age, String phoneNumber, String experience, String email, String carMake, String carModel, String carTag) {
-		this.name = name;
-		this.age = age;
-		this.phoneNumber = phoneNumber;
-		this.experience = experience;
-		this.email = email;
-		this.carMake = carMake;
-		this.carModel = carModel;
-		this.carTag = carTag;
-	}
-	public Long getId() {
-		return id;
-	}
+    public Driver() {
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Driver(String name, int age, String phoneNumber, String experience, String email, String carMake, String carModel, String carTag) {
+        this.name = name;
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+        this.experience = experience;
+        this.email = email;
+        this.carMake = carMake;
+        this.carModel = carModel;
+        this.carTag = carTag;
+    }
 
-	public byte[] getDriverPhoto() {
-		return driverPhoto;
-	}
+    public Driver(String name, int age, String phoneNumber, String experience, String email, String carMake, String carModel, String carTag, Float latitude, Float longitude) {
+        this.name = name;
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+        this.experience = experience;
+        this.email = email;
+        this.carMake = carMake;
+        this.carModel = carModel;
+        this.carTag = carTag;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
-	public void setDriverPhoto(byte[] driverPhoto) {
-		this.driverPhoto = driverPhoto;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public int getAge() {
-		return age;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setAge(int age) {
-		this.age = age;
-	}
+    public byte[] getDriverPhoto() {
+        return driverPhoto;
+    }
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+    public void setDriverPhoto(byte[] driverPhoto) {
+        this.driverPhoto = driverPhoto;
+    }
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getExperience() {
-		return experience;
-	}
+    public Float getLatitude() {
+        return latitude;
+    }
 
-	public void setExperience(String experience) {
-		this.experience = experience;
-	}
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public Float getLongitude() {
+        return longitude;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
+    }
 
-	public String getCarMake() {
-		return carMake;
-	}
+    public int getAge() {
+        return age;
+    }
 
-	public void setCarMake(String carMake) {
-		this.carMake = carMake;
-	}
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-	public String getCarModel() {
-		return carModel;
-	}
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public void setCarModel(String carModel) {
-		this.carModel = carModel;
-	}
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	public byte[] getCarPhoto() {
-		return carPhoto;
-	}
+    public String getExperience() {
+        return experience;
+    }
 
-	public void setCarPhoto(byte[] carPhoto) {
-		this.carPhoto = carPhoto;
-	}
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
 
-	public String getCarTag() {
-		return carTag;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setCarTag(String carTag) {
-		this.carTag = carTag;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCarMake() {
+        return carMake;
+    }
+
+    public void setCarMake(String carMake) {
+        this.carMake = carMake;
+    }
+
+    public String getCarModel() {
+        return carModel;
+    }
+
+    public void setCarModel(String carModel) {
+        this.carModel = carModel;
+    }
+
+    public byte[] getCarPhoto() {
+        return carPhoto;
+    }
+
+    public void setCarPhoto(byte[] carPhoto) {
+        this.carPhoto = carPhoto;
+    }
+
+    public String getCarTag() {
+        return carTag;
+    }
+
+    public void setCarTag(String carTag) {
+        this.carTag = carTag;
+    }
+
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", experience='" + experience + '\'' +
+                ", email='" + email + '\'' +
+                ", driverPhoto=" + Arrays.toString(driverPhoto) +
+                ", carMake='" + carMake + '\'' +
+                ", carModel='" + carModel + '\'' +
+                ", carPhoto=" + Arrays.toString(carPhoto) +
+                ", carTag='" + carTag + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }

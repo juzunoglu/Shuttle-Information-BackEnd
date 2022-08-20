@@ -42,7 +42,7 @@ public class DriverController {
 
 	@PostMapping(value = "/create", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Driver> saveDriver(@Validated @RequestBody DriverDTO driverDTO) {
-		LOGGER.info("createDriver() is called with dto: {}", driverDTO);
+		LOGGER.info("saveDriver() is called with dto: {}", driverDTO);
 		Driver driver = driverStorageService.save(driverDTO);
 		return ResponseEntity
 						.status(HttpStatus.CREATED)

@@ -88,7 +88,7 @@ public class AuthController {
 
 		List<Role> roles = new ArrayList<>();
 		if (signUpRequest.role() == null || signUpRequest.role().isEmpty()) {
-			Role userRole = roleRepository.findByName("ROLE_USER")
+			Role userRole = roleRepository.findByName("ROLE_PASSENGER")
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
 		}
@@ -114,7 +114,7 @@ public class AuthController {
 					roles.add(modRole);
 				}
 				default -> {
-					Role userRole = roleRepository.findByName("ROLE_USER")
+					Role userRole = roleRepository.findByName("ROLE_PASSENGER")
 									.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(userRole);
 				}

@@ -18,10 +18,6 @@ public class Role {
 	@Column(length = 20)
 	private String name;
 
-	public Role(Long id, String name) {
-		this.id = id;
-		this.name = name;
-	}
 	public Role(String name) {
 		this.name = name;
 	}
@@ -45,4 +41,11 @@ public class Role {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "Role{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				'}';
+	}
 }
