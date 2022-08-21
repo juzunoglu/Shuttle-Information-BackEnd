@@ -2,6 +2,7 @@ package com.alihan.uzunoglu.twilio.controller;
 
 import com.alihan.uzunoglu.twilio.entity.Passenger;
 import com.alihan.uzunoglu.twilio.repository.PassengerRepository;
+import com.alihan.uzunoglu.twilio.service.frontEndService.PassengerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,12 @@ public class PassengerController {
     private final static Logger LOGGER = LoggerFactory.getLogger(PassengerController.class);
 
     private final PassengerRepository passengerRepository;
+    private final PassengerService passengerService;
 
     @Autowired
-    public PassengerController(PassengerRepository passengerRepository) {
+    public PassengerController(PassengerRepository passengerRepository, PassengerService passengerService) {
         this.passengerRepository = passengerRepository;
+        this.passengerService = passengerService;
     }
 
     @PostMapping(value = "/create", consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -40,6 +43,7 @@ public class PassengerController {
 
     @GetMapping(value = "/getAllPassengers")
     public ResponseEntity<List<Passenger>> getAllPassengers() {
+        LOGGER.info("getAllPassengers() is called with");
         return ResponseEntity
                 .ok()
                 .body(passengerRepository.findAll());
@@ -47,9 +51,19 @@ public class PassengerController {
 
     @DeleteMapping(value = "delete/{id}")
     public ResponseEntity<Boolean> deletePassengerById(@PathVariable Long id) {
+        LOGGER.info("deletePassengerById() is called with id: {}", id);
         passengerRepository.deleteById(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(true);
+    }
+
+    @PostMapping(value = "/assignToDriver/{id}")
+    public ResponseEntity<Boolean> assignPassengerToDriver(@PathVariable Long id, @Validated @RequestBody Passenger passenger) {
+        LOGGER.info("assignPassengerToDriver() is called with id: {} and passenger: {}", id, passenger);
+        boolean res = passengerService.assignPassengerToDriver(id, passenger);
+        return ResponseEntity
+                .ok()
+                .body(res);
     }
 }

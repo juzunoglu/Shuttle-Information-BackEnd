@@ -1,13 +1,9 @@
 package com.alihan.uzunoglu.twilio.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name = "drivers")
@@ -54,6 +50,18 @@ public class Driver {
 
     @Column(name = "longitude")
     private Float longitude;
+
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<Passenger> passengers = new ArrayList<>();
+
+    public List<Passenger> getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(List<Passenger> passengers) {
+        this.passengers = passengers;
+    }
 
     public Driver() {
 
