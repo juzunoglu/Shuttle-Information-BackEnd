@@ -4,22 +4,19 @@ import com.alihan.uzunoglu.twilio.entity.Driver;
 import com.alihan.uzunoglu.twilio.entity.Passenger;
 import com.alihan.uzunoglu.twilio.model.DriverDTO;
 import com.alihan.uzunoglu.twilio.repository.DriverRepo;
-import com.alihan.uzunoglu.twilio.repository.PassengerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class DriverStorageServiceImpl implements DriverStorageService {
     private final DriverRepo driverRepo;
 
-    private final PassengerRepository passengerRepository;
-
-    public DriverStorageServiceImpl(DriverRepo driverRepo, PassengerRepository passengerRepository) {
+    public DriverStorageServiceImpl(DriverRepo driverRepo) {
         this.driverRepo = driverRepo;
-        this.passengerRepository = passengerRepository;
     }
 
     @Override
@@ -71,6 +68,13 @@ public class DriverStorageServiceImpl implements DriverStorageService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Set<Passenger> getAssociatedPassengers(Long id) {
+        Driver driver = driverRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("No driver found with id: " + id));
+        return driver.getPassengers();
     }
 
     @Override

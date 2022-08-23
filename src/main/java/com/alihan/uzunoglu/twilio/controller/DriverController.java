@@ -2,11 +2,11 @@ package com.alihan.uzunoglu.twilio.controller;
 
 
 import com.alihan.uzunoglu.twilio.entity.Driver;
+import com.alihan.uzunoglu.twilio.entity.Passenger;
 import com.alihan.uzunoglu.twilio.model.DriverDTO;
 import com.alihan.uzunoglu.twilio.security.payload.response.MessageResponse;
 import com.alihan.uzunoglu.twilio.service.frontEndService.DriverStorageService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +25,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/driver")
 @Transactional
+@Slf4j
 public class DriverController {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(DriverController.class);
 
 	private final DriverStorageService driverStorageService;
 
@@ -42,7 +43,7 @@ public class DriverController {
 
 	@PostMapping(value = "/create", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Driver> saveDriver(@Validated @RequestBody DriverDTO driverDTO) {
-		LOGGER.info("saveDriver() is called with dto: {}", driverDTO);
+		log.info("saveDriver() is called with dto: {}", driverDTO);
 		Driver driver = driverStorageService.save(driverDTO);
 		return ResponseEntity
 						.status(HttpStatus.CREATED)
@@ -51,7 +52,7 @@ public class DriverController {
 
 	@PostMapping(value = "{id}/addPhoto", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<MessageResponse> createDriverPhoto(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) {
-		LOGGER.info("createDriverPhoto() is called with file: {}", file.getOriginalFilename());
+		log.info("createDriverPhoto() is called with file: {}", file.getOriginalFilename());
 		String response;
 		try {
 			driverStorageService.uploadCarPhoto(id, file);
@@ -67,7 +68,7 @@ public class DriverController {
 
 	@GetMapping(value = "/carPhoto/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public ResponseEntity<byte[]> getCarPhoto(@PathVariable Long id) {
-		LOGGER.info("getCarPhoto() is called with id: {}", id);
+		log.info("getCarPhoto() is called with id: {}", id);
 		return ResponseEntity
 						.ok()
 						.contentType(MediaType.IMAGE_JPEG)
@@ -75,12 +76,22 @@ public class DriverController {
 	}
 	@GetMapping(value = "/getAllDrivers")
 	public ResponseEntity<List<Driver>> getAllDrivers() {
+		log.info("getAllDrivers() is called");
 		return ResponseEntity
 						.ok()
 						.body(driverStorageService.getAllDrivers());
 	}
+
+	@GetMapping(value = "/getAssociatedPassengers/{id}")
+	public ResponseEntity<Set<Passenger>> getAssociatedPassengers(@PathVariable Long id) {
+		log.info("getAssociatedPassengers() is called with id: {}", id);
+		return ResponseEntity
+				.ok()
+				.body(driverStorageService.getAssociatedPassengers(id));
+	}
 	@DeleteMapping(value = "delete/{id}")
 	public ResponseEntity<Boolean> deleteDriverById(@PathVariable Long id) {
+		log.info("deleteDriverById() is called with id: {}", id);
 		return ResponseEntity
 						.status(HttpStatus.OK)
 						.body(driverStorageService.deleteDriverById(id));

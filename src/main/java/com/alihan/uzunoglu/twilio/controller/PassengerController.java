@@ -3,8 +3,7 @@ package com.alihan.uzunoglu.twilio.controller;
 import com.alihan.uzunoglu.twilio.entity.Passenger;
 import com.alihan.uzunoglu.twilio.repository.PassengerRepository;
 import com.alihan.uzunoglu.twilio.service.frontEndService.PassengerService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,9 +18,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/passenger")
 @Transactional
+@Slf4j
 public class PassengerController {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(PassengerController.class);
 
     private final PassengerRepository passengerRepository;
     private final PassengerService passengerService;
@@ -34,7 +32,7 @@ public class PassengerController {
 
     @PostMapping(value = "/create", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Passenger> savePassenger(@Validated @RequestBody Passenger passenger) {
-        LOGGER.info("savePassenger() is called with dto: {}", passenger);
+        log.info("savePassenger() is called with dto: {}", passenger);
         Passenger toBeSaved = passengerRepository.save(passenger);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -43,7 +41,7 @@ public class PassengerController {
 
     @GetMapping(value = "/getAllPassengers")
     public ResponseEntity<List<Passenger>> getAllPassengers() {
-        LOGGER.info("getAllPassengers() is called with");
+        log.info("getAllPassengers() is called with");
         return ResponseEntity
                 .ok()
                 .body(passengerRepository.findAll());
@@ -51,7 +49,7 @@ public class PassengerController {
 
     @DeleteMapping(value = "delete/{id}")
     public ResponseEntity<Boolean> deletePassengerById(@PathVariable Long id) {
-        LOGGER.info("deletePassengerById() is called with id: {}", id);
+        log.info("deletePassengerById() is called with id: {}", id);
         passengerRepository.deleteById(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -60,7 +58,7 @@ public class PassengerController {
 
     @PostMapping(value = "/assignToDriver/{id}")
     public ResponseEntity<Boolean> assignPassengerToDriver(@PathVariable Long id, @Validated @RequestBody Passenger passenger) {
-        LOGGER.info("assignPassengerToDriver() is called with id: {} and passenger: {}", id, passenger);
+        log.info("assignPassengerToDriver() is called with id: {} and passenger: {}", id, passenger);
         boolean res = passengerService.assignPassengerToDriver(id, passenger);
         return ResponseEntity
                 .ok()
