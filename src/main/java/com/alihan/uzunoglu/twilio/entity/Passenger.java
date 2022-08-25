@@ -29,7 +29,7 @@ public class Passenger {
 
     private Float longitude;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "driver_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "driver_id", nullable = true)
     private Driver driver;
 }

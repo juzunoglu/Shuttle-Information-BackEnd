@@ -4,6 +4,7 @@ import com.alihan.uzunoglu.twilio.entity.Driver;
 import com.alihan.uzunoglu.twilio.entity.Passenger;
 import com.alihan.uzunoglu.twilio.model.DriverDTO;
 import com.alihan.uzunoglu.twilio.repository.DriverRepo;
+import com.alihan.uzunoglu.twilio.repository.PassengerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,9 +15,11 @@ import java.util.Set;
 @Service
 public class DriverStorageServiceImpl implements DriverStorageService {
     private final DriverRepo driverRepo;
+    private final PassengerRepository passengerRepository;
 
-    public DriverStorageServiceImpl(DriverRepo driverRepo) {
+    public DriverStorageServiceImpl(DriverRepo driverRepo, PassengerRepository passengerRepository) {
         this.driverRepo = driverRepo;
+        this.passengerRepository = passengerRepository;
     }
 
     @Override
@@ -58,15 +61,18 @@ public class DriverStorageServiceImpl implements DriverStorageService {
         return driverRepo.findAll().subList(0, size);
     }
 
+    // When deleting driver -> passenger should not be deleted
     @Override
     public boolean deleteDriverById(Long id) {
         Driver driver = driverRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("No driver by the id: " + id));
-        try {
-            driverRepo.delete(driver);
-        } catch (Exception e) {
-            return false;
-        }
+        Set<Passenger> passengers = driver.getPassengers();
+        passengers.forEach(passenger -> {
+            Passenger assignedPass = passengerRepository.findById(passenger.getId())
+                    .orElseThrow(() -> new RuntimeException("No pass with id: " + id));
+            assignedPass.setDriver(null);
+        });
+        driverRepo.delete(driver);
         return true;
     }
 
@@ -76,7 +82,6 @@ public class DriverStorageServiceImpl implements DriverStorageService {
                 .orElseThrow(() -> new RuntimeException("No driver found with id: " + id));
         return driver.getPassengers();
     }
-
     @Override
     public Driver assignPassengerToDriver(Long id, Passenger passenger) {
         return driverRepo.findById(id)

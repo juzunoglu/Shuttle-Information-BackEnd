@@ -89,6 +89,7 @@ public class DriverController {
 				.ok()
 				.body(driverStorageService.getAssociatedPassengers(id));
 	}
+
 	@DeleteMapping(value = "delete/{id}")
 	public ResponseEntity<Boolean> deleteDriverById(@PathVariable Long id) {
 		log.info("deleteDriverById() is called with id: {}", id);

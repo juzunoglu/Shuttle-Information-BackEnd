@@ -21,19 +21,17 @@ import java.util.List;
 @Slf4j
 public class PassengerController {
 
-    private final PassengerRepository passengerRepository;
     private final PassengerService passengerService;
 
     @Autowired
-    public PassengerController(PassengerRepository passengerRepository, PassengerService passengerService) {
-        this.passengerRepository = passengerRepository;
+    public PassengerController(PassengerService passengerService) {
         this.passengerService = passengerService;
     }
 
     @PostMapping(value = "/create", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Passenger> savePassenger(@Validated @RequestBody Passenger passenger) {
         log.info("savePassenger() is called with dto: {}", passenger);
-        Passenger toBeSaved = passengerRepository.save(passenger);
+        Passenger toBeSaved = passengerService.save(passenger);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(toBeSaved);
@@ -44,16 +42,15 @@ public class PassengerController {
         log.info("getAllPassengers() is called with");
         return ResponseEntity
                 .ok()
-                .body(passengerRepository.findAll());
+                .body(passengerService.findAll());
     }
 
     @DeleteMapping(value = "delete/{id}")
     public ResponseEntity<Boolean> deletePassengerById(@PathVariable Long id) {
         log.info("deletePassengerById() is called with id: {}", id);
-        passengerRepository.deleteById(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(true);
+                .body(passengerService.deletePassengerById(id));
     }
 
     @PostMapping(value = "/assignToDriver/{id}")
@@ -63,5 +60,14 @@ public class PassengerController {
         return ResponseEntity
                 .ok()
                 .body(res);
+    }
+
+    @DeleteMapping(value = "/removeAssociatedPassenger/{id}")
+    public ResponseEntity<Boolean> unAssignPassengerFromDriver(@PathVariable Long id) {
+        log.info("removeAssociatedPassenger() is called with id: {}", id);
+        return ResponseEntity
+                .ok()
+                .body(passengerService.unAssignPassengerFromDriver(id));
+
     }
 }

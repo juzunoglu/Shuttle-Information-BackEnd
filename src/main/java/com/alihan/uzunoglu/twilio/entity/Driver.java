@@ -48,7 +48,7 @@ public class Driver {
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "driver")
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = false, mappedBy = "driver")
     private Set<Passenger> passengers = new HashSet<>();
 
     public Driver(String name, int age, String phoneNumber, String experience, String email, String carMake, String carModel, String carTag, Float latitude, Float longitude) {
