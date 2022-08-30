@@ -2,24 +2,34 @@ package com.alihan.uzunoglu.twilio.service.frontEndService;
 
 import com.alihan.uzunoglu.twilio.entity.Driver;
 import com.alihan.uzunoglu.twilio.entity.Passenger;
+import com.alihan.uzunoglu.twilio.entity.Route;
 import com.alihan.uzunoglu.twilio.model.DriverDTO;
+import com.alihan.uzunoglu.twilio.model.RouteDTO;
 import com.alihan.uzunoglu.twilio.repository.DriverRepo;
 import com.alihan.uzunoglu.twilio.repository.PassengerRepository;
+import com.alihan.uzunoglu.twilio.repository.RouteRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Transactional
 public class DriverStorageServiceImpl implements DriverStorageService {
     private final DriverRepo driverRepo;
     private final PassengerRepository passengerRepository;
+    private final RouteRepo routeRepo;
 
-    public DriverStorageServiceImpl(DriverRepo driverRepo, PassengerRepository passengerRepository) {
+    @Autowired
+    public DriverStorageServiceImpl(DriverRepo driverRepo, PassengerRepository passengerRepository, RouteRepo routeRepo) {
         this.driverRepo = driverRepo;
         this.passengerRepository = passengerRepository;
+        this.routeRepo = routeRepo;
     }
 
     @Override
@@ -77,14 +87,15 @@ public class DriverStorageServiceImpl implements DriverStorageService {
     }
 
     @Override
-    public Set<Passenger> getAssociatedPassengers(Long id) {
-        Driver driver = driverRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("No driver found with id: " + id));
+    public Set<Passenger> getAssociatedPassengers(Long driverId) {
+        Driver driver = driverRepo.findById(driverId)
+                .orElseThrow(() -> new RuntimeException("No driver found with driverId: " + driverId));
         return driver.getPassengers();
     }
+
     @Override
-    public Driver assignPassengerToDriver(Long id, Passenger passenger) {
-        return driverRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("No driver found by the id: " + id));
+    public Driver getDriverByPassengerId(Long passengerId) {
+        return driverRepo.getAssignedDriverByPassengerId(passengerId)
+                .orElse(null);
     }
 }

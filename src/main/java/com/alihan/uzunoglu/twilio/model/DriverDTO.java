@@ -10,29 +10,12 @@ public record DriverDTO(
         @JsonProperty("experience") String experience,
         @JsonProperty("email") String email,
 
-        @JsonProperty("latitude") Float latitude,
-        @JsonProperty("longitude") Float longitude,
+        @JsonProperty("latitude") float latitude,
+        @JsonProperty("longitude") float longitude,
         @JsonProperty("driverPhoto") MultipartFile driverPhoto,
         @JsonProperty("carMake") String carMake,
         @JsonProperty("carModel") String carModel,
         @JsonProperty("carPhoto") MultipartFile carPhoto,
         @JsonProperty("carTag") String carTag
 ) {
-    @Override
-    public String toString() {
-        return "DriverDTO{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", experience='" + experience + '\'' +
-                ", email='" + email + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", driverPhoto=" + driverPhoto +
-                ", carMake='" + carMake + '\'' +
-                ", carModel='" + carModel + '\'' +
-                ", carPhoto=" + carPhoto +
-                ", carTag='" + carTag + '\'' +
-                '}';
-    }
 }

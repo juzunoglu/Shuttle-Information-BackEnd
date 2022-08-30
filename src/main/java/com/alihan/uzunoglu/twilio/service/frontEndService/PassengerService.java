@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PassengerService {
 
-    boolean assignPassengerToDriver(Long id, Passenger passenger);
+    boolean assignPassengerToDriver(Long driverId, Passenger passenger);
 
     boolean unAssignPassengerFromDriver(Long id);
 

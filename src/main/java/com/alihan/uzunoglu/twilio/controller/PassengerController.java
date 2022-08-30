@@ -1,7 +1,6 @@
 package com.alihan.uzunoglu.twilio.controller;
 
 import com.alihan.uzunoglu.twilio.entity.Passenger;
-import com.alihan.uzunoglu.twilio.repository.PassengerRepository;
 import com.alihan.uzunoglu.twilio.service.frontEndService.PassengerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,13 +52,12 @@ public class PassengerController {
                 .body(passengerService.deletePassengerById(id));
     }
 
-    @PostMapping(value = "/assignToDriver/{id}")
-    public ResponseEntity<Boolean> assignPassengerToDriver(@PathVariable Long id, @Validated @RequestBody Passenger passenger) {
-        log.info("assignPassengerToDriver() is called with id: {} and passenger: {}", id, passenger);
-        boolean res = passengerService.assignPassengerToDriver(id, passenger);
+    @PostMapping(value = "/assignToDriver/{driverId}")
+    public ResponseEntity<Boolean> assignPassengerToDriver(@PathVariable Long driverId, @Validated @RequestBody Passenger passenger) {
+        log.info("assignPassengerToDriver() is called with id: {} and passenger: {}", driverId, passenger);
         return ResponseEntity
                 .ok()
-                .body(res);
+                .body(passengerService.assignPassengerToDriver(driverId, passenger));
     }
 
     @DeleteMapping(value = "/removeAssociatedPassenger/{id}")

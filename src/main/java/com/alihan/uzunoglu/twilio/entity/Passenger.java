@@ -25,9 +25,9 @@ public class Passenger {
 
     private String email;
 
-    private Float latitude;
+    private float latitude;
 
-    private Float longitude;
+    private float longitude;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "driver_id", nullable = true)
