@@ -29,22 +29,19 @@ public class PassengerServiceImpl implements PassengerService {
         this.routeRepo = routeRepo;
     }
 
-    @Override
+    @Override //todo when unassigned from driver, the route needs to be deleted
     public boolean assignPassengerToDriver(Long driverId, Passenger passenger) {
         Driver driver = driverRepo.findById(driverId)
                 .orElseThrow(() -> new RuntimeException("No driver by the id: " + driverId));
         Passenger passenger1 = passengerRepository.findById(passenger.getId())
                 .orElseThrow(() -> new RuntimeException("No passenger " + driverId));
         passenger1.setDriver(driver);
-        if (driver.getRoute() != null) {
-            routeRepo.delete(driver.getRoute());
-        }
         Route route = new Route(driver.getLatitude(), driver.getLongitude(), passenger1.getLatitude(), passenger1.getLongitude());
         driver.setRoute(route);
         return true;
     }
 
-    @Override
+    @Override //todo when unassigned from driver, the route needs to be deleted
     public boolean unAssignPassengerFromDriver(Long id) {
         Passenger passenger = passengerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No Passenger is found with id: " + id));
@@ -55,7 +52,7 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public Passenger save(Passenger passenger) {
+    public Passenger savePassenger(Passenger passenger) {
         return passengerRepository.save(passenger);
     }
 
@@ -70,5 +67,13 @@ public class PassengerServiceImpl implements PassengerService {
                 .orElseThrow(() -> new RuntimeException("No passenger exists with id: " + id));
         passengerRepository.delete(passenger);
         return true;
+    }
+
+    @Override
+    public Passenger updatePassenger(Long id, Passenger updatedPassenger) {
+        Passenger passengerToBeUpdated = passengerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No passenger exists with id: " + id));
+        passengerRepository.delete(passengerToBeUpdated);
+        return passengerRepository.save(updatedPassenger);
     }
 }

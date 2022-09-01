@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/passenger")
 @Transactional
@@ -29,11 +29,19 @@ public class PassengerController {
 
     @PostMapping(value = "/create", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Passenger> savePassenger(@Validated @RequestBody Passenger passenger) {
-        log.info("savePassenger() is called with dto: {}", passenger);
-        Passenger toBeSaved = passengerService.save(passenger);
+        log.info("savePassenger() is called with: {}", passenger);
+        Passenger toBeSaved = passengerService.savePassenger(passenger);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(toBeSaved);
+    }
+
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity<Passenger> updatePassenger(@PathVariable Long id, @RequestBody Passenger updatedPassenger) {
+        log.info("updatePassenger() is called with id: {}, and passenger: {}", id, updatedPassenger);
+        return ResponseEntity
+                .ok()
+                .body(passengerService.updatePassenger(id, updatedPassenger));
     }
 
     @GetMapping(value = "/getAllPassengers")
@@ -66,6 +74,5 @@ public class PassengerController {
         return ResponseEntity
                 .ok()
                 .body(passengerService.unAssignPassengerFromDriver(id));
-
     }
 }

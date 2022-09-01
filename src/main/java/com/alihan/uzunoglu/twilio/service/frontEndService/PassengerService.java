@@ -10,13 +10,13 @@ public interface PassengerService {
 
     boolean unAssignPassengerFromDriver(Long id);
 
-
-    Passenger save(Passenger passenger);
+    Passenger savePassenger(Passenger passenger);
 
     List<Passenger> findAll();
 
     boolean deletePassengerById(Long id);
 
+    Passenger updatePassenger(Long id, Passenger updatedPassenger);
 
 }
 

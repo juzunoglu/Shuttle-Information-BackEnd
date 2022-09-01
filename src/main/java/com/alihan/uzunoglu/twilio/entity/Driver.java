@@ -14,6 +14,7 @@ import java.util.Set;
 @ToString
 @Getter
 @Setter
+@Builder
 public class Driver {
 
     @Id
@@ -48,11 +49,11 @@ public class Driver {
 
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = false, mappedBy = "driver")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "driver")
     private Set<Passenger> passengers = new HashSet<>();
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "route_id")
     private Route route;
 
